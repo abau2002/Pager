@@ -30,8 +30,6 @@ using namespace std;
 #define DEFAULT_SIZE "512"
 #define DEFAULT_FILE "pager.in"
 
-queue<int> addresses;
-
 // checks if input is valid and returns false if no errors found
 bool inputErrorCheck(string pages, string frames, string frameSize);
 
@@ -42,5 +40,15 @@ int commandErrorCheck(int argc, char**argv);
 bool loadErrorCheck(int address,int pageSize, int pages);
 
 bool idErrorCheck(string fileInput);
+
+void push(int address, queue<int>& queue);
+
+void pop(queue<int>& queue);
+
+int get(queue<int>& queue);
+
+bool empty(queue<int>& queue);
+
+int size(queue<int>& queue);
 
 #endif // PAGER_H

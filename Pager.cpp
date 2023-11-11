@@ -4,21 +4,24 @@
 //
 // Driver for 
 //
-// 
+//	http://www.graphics.stanford.edu/~seander/bithacks.html#DetermineIfPowerOf2
 //
 
 #include "Pager.h"
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <stdlib.h>
 using namespace std;
 
 int main(int argc, char **argv){
+	queue<int> addresses;
 	ifstream inputFile;
 	string fileLine;
 	char type[INPUT_MAX], frames[INPUT_MAX], fileName[INPUT_MAX], pages[INPUT_MAX], frameSize[INPUT_MAX];
 	int fileIndex,id;
 
+	// ensures a default is present in case a value is not specified
 	strcpy(type,DEFAULT_TYPE);
 	strcpy(frames,DEFAULT_FRAMES);
 	strcpy(fileName,DEFAULT_FILE);
@@ -56,14 +59,12 @@ int main(int argc, char **argv){
 			inputFile >> fileInput;
 			if(idErrorCheck(fileInput)) exit(1);
 			id = atoi(fileInput.substr(2,fileInput.length()).c_str());
-
 			inputFile >> fileInput;
 		    while(!inputFile.eof()){
 		    	address = atoi(fileInput.c_str());
     			if(loadErrorCheck(address,atoi(frameSize),atoi(pages))) exit(1);
 
-    			addresses.push(address);
-
+    			push(address,addresses);
     			inputFile >> fileInput;
 			}
 			inputFile.close();
@@ -89,24 +90,38 @@ int main(int argc, char **argv){
 	else if(!strcmp(type,MOST_FREQUENT_USED)){
 		cout << "MFU\n";
 	}
-	cout << fileName << endl;
+
+	// DEBUG: printing values in queue
+	int count = size(addresses);
+	for(int i=0;i<count;i++){
+		cout << get(addresses) << endl;
+		pop(addresses);
+	}
 
 	return 0;
 }
 
 bool inputErrorCheck(string pages, string frames, string frameSize){
 	bool error = false;
-	if(atoi(pages.c_str()) <= 0){
-		cout << "\tERROR: Pages must be a positive number\n";
+	if(atoi(pages.c_str()) <= 0 || pages.find('.')!=string::npos){
+		cout << "\tERROR: Pages must be a positive integer\n";
+		error = true;
+
+	}
+	if(atoi(frames.c_str()) <= 0 || frames.find('.')!=string::npos){
+		cout << "\tERROR: Frames must be a positive integer\n";
 		error = true;
 	}
-	else if(atoi(frames.c_str()) <= 0){
-		cout << "\tERROR: Frames must be a positive number\n";
+	if(atoi(frameSize.c_str()) <= 0 || frameSize.find('.')!=string::npos){
+		cout << "\tERROR: Frame size must be a positive integer\n";
 		error = true;
 	}
-	else if(atoi(frameSize.c_str()) <= 0){
-		cout << "\tERROR: Frame size must be a positive number\n";
-		error = true;
+	else{
+		unsigned int frameBytes = atoi(frameSize.c_str());
+		if((frameBytes & (frameBytes - 1)) != 0){
+			cout << "\tERROR: Frame size must be a power of two\n";
+			error = true;
+		}
 	}
 	return error;		
 }
@@ -134,7 +149,7 @@ int commandErrorCheck(int argc, char** argv){
 			}
 			else if(!strcmp(argv[i],TYPE)){
 				if(strcmp(argv[i+1],FIRST_IN_FIRST_OUT) && strcmp(argv[i+1],LEAST_RECENT_USED) && strcmp(argv[i+1],MOST_FREQUENT_USED) && strcmp(argv[i+1],RANDOM)){
-					cout << "\tERROR: " << argv[i+1] << " is not a valid type\n";
+					cout << "\tERROR: " << argv[i+1] << " is not a valid type {FIFO|LRU|MFU|RANDOM}\n";
 					error = true;
 				}
 			}
@@ -169,3 +184,13 @@ bool idErrorCheck(string fileInput){
 	}
 	return error;
 }
+
+void push(int address, queue<int>& queue){ queue.push(address); }
+
+void pop(queue<int>& queue){ queue.pop(); }
+
+int get(queue<int>& queue){ return queue.front(); }
+
+bool empty(queue<int>& queue){ return queue.empty(); }
+
+int size(queue<int>& queue){ return queue.size(); }
