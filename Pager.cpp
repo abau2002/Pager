@@ -8,13 +8,16 @@
 //
 
 #include "Pager.h"
-#include <iostream>
+#include "Table.h"
+#include "Random.h"
 #include <fstream>
+#include <iostream>
 #include <cstring>
 #include <stdlib.h>
 using namespace std;
 
 int main(int argc, char **argv){
+	Random random;
 	queue<int> addresses;
 	ifstream inputFile;
 	string fileLine;
@@ -78,6 +81,8 @@ int main(int argc, char **argv){
 		exit(1);
 	}
 
+	cout << "Paging for P_" << id << ":\n";
+	Table table(atoi(frames),atoi(frameSize));
 	if(!strcmp(type,FIRST_IN_FIRST_OUT)){
 		cout << id << " FIFO\n";
 	}
@@ -85,7 +90,7 @@ int main(int argc, char **argv){
 		cout << "LRU\n";
 	}
 	else if(!strcmp(type,RANDOM)){
-		cout << "RANDOM\n";
+		random.randomPager(addresses,table);
 	}
 	else if(!strcmp(type,MOST_FREQUENT_USED)){
 		cout << "MFU\n";
@@ -165,7 +170,7 @@ int commandErrorCheck(int argc, char** argv){
 bool loadErrorCheck(int address,int pageSize, int pages){
     bool error = false;
     // check if address is possible within given frames and size
-    if((address/pageSize) > pages){
+    if((address/pageSize) >= pages){
     	cout << "\tERROR: Address " << address << " cannot exist within " << pages << " " << pageSize << " byte pages\n";
     	error = true;
     }

@@ -36,19 +36,25 @@ bool inputErrorCheck(string pages, string frames, string frameSize);
 // checks if command line set up is valid and returns false if no issues found
 int commandErrorCheck(int argc, char**argv);
 
-// checks if the values , returns false if no errors found
+// checks if the values are valid, returns false if no errors found
 bool loadErrorCheck(int address,int pageSize, int pages);
 
+// checks if the process id is valid and in the proper format, returns false if no issues found
 bool idErrorCheck(string fileInput);
 
+// pushes the given address into the end of the given queue
 void push(int address, queue<int>& queue);
 
+// pops the first element of the queue
 void pop(queue<int>& queue);
 
+// returns the first element of the queue
 int get(queue<int>& queue);
 
+// returns true if the queue is empty
 bool empty(queue<int>& queue);
 
+// returns the size of the given queue
 int size(queue<int>& queue);
 
 #endif // PAGER_H
