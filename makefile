@@ -1,9 +1,9 @@
 # FILE: makefile
 
-pager: Pager.o Table.o Random.o
-	g++ Pager.o Table.o Random.o -o pager
+pager: Pager.o Table.o Random.o FIFO.o
+	g++ Pager.o Table.o Random.o FIFO.o -o pager
 
-Pager.o: Pager.cpp Pager.h Table.h Random.h
+Pager.o: Pager.cpp Pager.h Table.h Random.h FIFO.h
 	g++ -c Pager.cpp
 
 Table.o: Table.cpp Table.h
@@ -11,3 +11,6 @@ Table.o: Table.cpp Table.h
 
 Random.o: Random.cpp Random.h Pager.h
 	g++ -c Random.cpp
+
+FIFO.o: FIFO.cpp Pager.h Table.h
+	g++ -c FIFO.cpp

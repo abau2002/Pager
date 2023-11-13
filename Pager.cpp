@@ -10,6 +10,7 @@
 #include "Pager.h"
 #include "Table.h"
 #include "Random.h"
+#include "FIFO.h"
 #include <fstream>
 #include <iostream>
 #include <cstring>
@@ -18,6 +19,7 @@ using namespace std;
 
 int main(int argc, char **argv){
 	Random random;
+	FIFO fifo;
 	queue<int> addresses;
 	ifstream inputFile;
 	string fileLine;
@@ -84,7 +86,7 @@ int main(int argc, char **argv){
 	cout << "Paging for P_" << id << ":\n";
 	Table table(atoi(frames),atoi(frameSize));
 	if(!strcmp(type,FIRST_IN_FIRST_OUT)){
-		cout << id << " FIFO\n";
+		fifo.fifoPager(addresses,table);
 	}
 	else if(!strcmp(type,LEAST_RECENT_USED)){
 		cout << "LRU\n";

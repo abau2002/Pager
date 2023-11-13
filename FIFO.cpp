@@ -1,24 +1,24 @@
-// FILE: Random.cpp
+// FILE: FIFO.cpp
 // A Bautista, B Franco, E Mora
 // OS, Fall 2023, Transy U
 //
 // 
 //
 
-#include "Random.h"
 #include "Pager.h"
+#include "Table.h"
+#include "FIFO.h"
+#include <queue>
 #include <iostream>
 
 using namespace std;
 
-Random::Random(){
+FIFO::FIFO(){
 	pageFaults = 0;
-	srand(time(NULL));
 }
+FIFO::~FIFO(){}
 
-Random::~Random(){}
-
-void Random::randomPager(queue<int>& addresses,Table& table){
+void FIFO::fifoPager(queue<int>& addresses, Table& table){
 	int freeFrame, address, victimFrame, page; 
 	int iteration = 0;
 	while(!empty(addresses)){
@@ -33,12 +33,15 @@ void Random::randomPager(queue<int>& addresses,Table& table){
 			freeFrame = table.freeFrame();
 			if(freeFrame != -1){
 				cout << "\t\tfreeFrame: " << freeFrame << endl;
+				push(page,pages);
 				table.load(freeFrame,page);
 				table.setValid(freeFrame);
 			}
 			// page replacement must be conducted
 			else{
 				victimFrame = selectVictim(table);
+				pop(pages);
+				push(page,pages);
 				cout << "\t\tvictimFrame: " << victimFrame << endl;
 				table.setInvalid(victimFrame);
 				table.load(victimFrame,page);
@@ -49,6 +52,6 @@ void Random::randomPager(queue<int>& addresses,Table& table){
 	}
 }
 
-int Random::selectVictim(Table& table){
-	return rand()%table.size();
+int FIFO::selectVictim(Table& table){
+	return table.member(get(pages));
 }

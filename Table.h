@@ -25,7 +25,6 @@ class Table{
 	
 
 	public:
-
 		// constructor that fills the table "empty" entries 
 		Table(int frames, int frameSize);
 
@@ -35,11 +34,11 @@ class Table{
 		// destructor
 		~Table();
 
-		// returns the number of a free frame, returns -1 of none found
+		// returns the number of a free frame, returns -1 if none found
 		int freeFrame();
 
-		// returns true if given page is already within a valid frame
-		bool member(int page);
+		// returns frame of given page if it's valid, returns -1 if not found
+		int member(int page);
 
 		// updates the given frame to contain the given page
 		void load(int frame, int page);

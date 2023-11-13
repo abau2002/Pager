@@ -32,13 +32,13 @@ int Table::freeFrame(){
 	return -1;
 }
 
-bool Table::member(int page){
+int Table::member(int page){
 	for(int i=0;i<frameCount;i++){
 		if(table[i].page==page && table[i].valid==true){
-			return true;
+			return i;
 		}
 	}
-	return false;
+	return -1;
 }
 
 void Table::load(int frame, int page){
