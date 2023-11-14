@@ -6,7 +6,7 @@
 //
 
 #include "Random.h"
-#include "Pager.h"
+#include "Table.h"
 #include <iostream>
 
 using namespace std;

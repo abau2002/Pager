@@ -9,8 +9,8 @@ Pager.o: Pager.cpp Pager.h Table.h Random.h FIFO.h
 Table.o: Table.cpp Table.h
 	g++ -c Table.cpp
 
-Random.o: Random.cpp Random.h Pager.h
+Random.o: Random.cpp Random.h Table.h
 	g++ -c Random.cpp
 
-FIFO.o: FIFO.cpp Pager.h Table.h
+FIFO.o: FIFO.cpp Table.h FIFO.h
 	g++ -c FIFO.cpp
