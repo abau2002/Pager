@@ -10,63 +10,45 @@
 #include <iostream>
 using namespace std;
 
-Table::Table(int frames,int frameSize){
+Table::Table(int pages, int frames, int frameSize){
+	freeFrames = 0;
 	frameCount = frames;
 	pageSize = frameSize;
-	for(int i=0;i<frameCount;i++){
-		table[i].page = -1;
-		table[i].valid = false;
-	}
+	emptyEntry.frame = -1;
+	emptyEntry.valid = false;
+	table.assign(pages,emptyEntry);
 }
 
 Table::Table(){}
 
 Table::~Table(){}
 
-int Table::freeFrame(){
-	for(int i=0;i<frameCount;i++){
-		if(!table[i].valid){
-			return i;
-		}
-	}
-	return -1;
-}
-
-int Table::member(int page){
-	for(int i=0;i<frameCount;i++){
-		if(table[i].page==page && table[i].valid==true){
-			return i;
-		}
-	}
-	return -1;
-}
-
-void Table::load(int frame, int page){
-	table[frame].page = page;
-}
-
-bool Table::valid(int frame){
-	return table[frame].valid;
-}
-
-void Table::setValid(int frame){
-	table[frame].valid = true;
-}
-
-void Table::setInvalid(int frame){
-	table[frame].valid = false;
-}
-
-int Table::size(){
-	return frameCount;
-}
-
-int Table::addressPage(int address){
-	return (address/pageSize);
-}
-
 void Table::print(){
-	for(int i=0;i<frameCount;i++){
-		cout << "\tFrame " << i << ": " << table[i].page << " " << table[i].valid << endl;
+	for(int i=0;i<size();i++) cout << "\tPage " << i << ": " << table.at(i).frame << " " << table.at(i).valid << endl;
+}
+
+int Table::addressPage(int address){ return (address/pageSize); }
+
+int Table::freeFrame(){
+	if(freeFrames<frameCount) return freeFrames++;
+	return -1;
+}
+
+int Table::size(){ return table.size(); }
+
+void Table::load(int page, int frame){ table.at(page).frame = frame; }
+
+void Table::setValid(int page){ table.at(page).valid = true; }
+
+void Table::setInvalid(int page){ table.at(page).valid = false; }
+
+bool Table::valid(int page){ return table.at(page).valid; }
+
+int Table::totalFrames(){ return frameCount; }
+
+int Table::findPage(int frame){
+	for(int i=0;i<size();i++){
+		if(table.at(i).frame==frame && table.at(i).valid) return i;
 	}
+	return -1;
 }

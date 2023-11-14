@@ -8,25 +8,22 @@
 #ifndef TABLE_H
 #define TABLE_H
 
-#define MAX_FRAMES 65536
-
+#include <vector>
 using namespace std;
 
 class Table{
 	private:
 		struct Entry{
-			int page;
+			int frame;
 			bool valid;
 		};
-
-		// inverted page table
-		Entry table[MAX_FRAMES];
-		int frameCount, pageSize;
-	
+		vector<Entry> table;
+		Entry emptyEntry;
+		int pageSize, frameCount, freeFrames;
 
 	public:
 		// constructor that fills the table "empty" entries 
-		Table(int frames, int frameSize);
+		Table(int pages, int frames, int frameSize);
 
 		// constructor
 		Table();
@@ -34,32 +31,35 @@ class Table{
 		// destructor
 		~Table();
 
-		// returns the number of a free frame, returns -1 if none found
-		int freeFrame();
-
-		// returns frame of given page if it's valid, returns -1 if not found
-		int member(int page);
-
-		// updates the given frame to contain the given page
-		void load(int frame, int page);
-
-		// returns true if the given frame is valid
-		bool valid(int frame);
-
-		// sets the given frame to be valid
-		void setValid(int frame);
-
-		// sets the given frame to be invalid
-		void setInvalid(int frame);
-
-		// returns the size of the table
-		int size();
+		// prints out the table
+		void print();
 
 		// returns the page the given address refers to
 		int addressPage(int address);
 
-		// prints out the table
-		void print();
+		// updates the given page to be in given frame
+		void load(int page, int frame);
+
+		// returns the number of a free frame, returns -1 if none available
+		int freeFrame();
+
+		// returns the size of the table, equivalent to number of pages
+		int size();
+
+		// sets the given page to be valid
+		void setValid(int page);
+
+		// sets the given page to be invalid
+		void setInvalid(int page);
+
+		// returns true if the given page is valid
+		bool valid(int page);
+
+		// returns frameCount
+		int totalFrames();
+
+		// finds the valid page in the given frame
+		int findPage(int frame);
 };
 
 #endif // TABLE_H

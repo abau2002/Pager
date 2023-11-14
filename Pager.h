@@ -29,6 +29,7 @@ using namespace std;
 #define DEFAULT_PAGES "8"
 #define DEFAULT_SIZE "512"
 #define DEFAULT_FILE "pager.in"
+#define MAX_FRAMES 65536
 
 // checks if input is valid and returns false if no errors found
 bool inputErrorCheck(string pages, string frames, string frameSize);
@@ -42,19 +43,7 @@ bool loadErrorCheck(int address,int pageSize, int pages);
 // checks if the process id is valid and in the proper format, returns false if no issues found
 bool idErrorCheck(string fileInput);
 
-// pushes the given address into the end of the given queue
-void push(int address, queue<int>& queue);
-
-// pops the first element of the queue
-void pop(queue<int>& queue);
-
-// returns the first element of the queue
-int get(queue<int>& queue);
-
-// returns true if the queue is empty
-bool empty(queue<int>& queue);
-
-// returns the size of the given queue
-int size(queue<int>& queue);
+// checks if any options have been repeated, returns false if no repeats found
+bool repeatErrorCheck(int typeOption, int pageOption, int frameOption, int sizeOption);
 
 #endif // PAGER_H

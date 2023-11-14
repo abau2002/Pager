@@ -5,6 +5,7 @@
 // Driver for 
 //
 //	http://www.graphics.stanford.edu/~seander/bithacks.html#DetermineIfPowerOf2
+//	https://cplusplus.com/reference/vector/vector/
 //
 
 #include "Pager.h"
@@ -41,20 +42,27 @@ int main(int argc, char **argv){
 		strcpy(fileName,argv[fileIndex]);
 	}
 
+	int typeOption=0,pageOption=0,frameOption=0,sizeOption=0;
 	for(int i=1;i<argc;i++){
 		if(!strcmp(argv[i],TYPE)){
+			typeOption++;
 			strcpy(type,argv[i+1]);
 		}
 		else if(!strcmp(argv[i],PAGES)){
+			pageOption++;
 			strcpy(pages,argv[i+1]);
 		}
-		else if(!strcmp(argv[i],FRAMES)){			
+		else if(!strcmp(argv[i],FRAMES)){
+			frameOption++;			
 			strcpy(frames,argv[i+1]);             
 		}
 		else if(!strcmp(argv[i],FRAME_SIZE)){
+			sizeOption++;
 			strcpy(frameSize,argv[i+1]);            
 		}
 	}
+
+	if(repeatErrorCheck(typeOption,pageOption,frameOption,sizeOption)) exit(1);
 
 	if(!inputErrorCheck(pages,frames,frameSize)){
 		inputFile.open(fileName);
@@ -69,7 +77,7 @@ int main(int argc, char **argv){
 		    	address = atoi(fileInput.c_str());
     			if(loadErrorCheck(address,atoi(frameSize),atoi(pages))) exit(1);
 
-    			push(address,addresses);
+    			addresses.push(address);
     			inputFile >> fileInput;
 			}
 			inputFile.close();
@@ -84,7 +92,7 @@ int main(int argc, char **argv){
 	}
 
 	cout << "Paging for P_" << id << ":\n";
-	Table table(atoi(frames),atoi(frameSize));
+	Table table(atoi(pages),atoi(frames),atoi(frameSize));
 	if(!strcmp(type,FIRST_IN_FIRST_OUT)){
 		fifo.fifoPager(addresses,table);
 	}
@@ -98,14 +106,28 @@ int main(int argc, char **argv){
 		cout << "MFU\n";
 	}
 
-	// DEBUG: printing values in queue
-	int count = size(addresses);
-	for(int i=0;i<count;i++){
-		cout << get(addresses) << endl;
-		pop(addresses);
-	}
-
 	return 0;
+}
+
+bool repeatErrorCheck(int typeOption, int pageOption, int frameOption, int sizeOption){
+	bool error = false;
+	if(typeOption>1){
+		cout << "\tERROR: " << TYPE << " has been entered multiple times\n";
+		error = true;
+	}
+	if(pageOption>1){
+		cout << "\tERROR: " << PAGES << " has been entered multiple times\n";
+		error = true;
+	}
+	if(frameOption>1){
+		cout << "\tERROR: " << FRAMES << " has been entered multiple times\n";
+		error = true;
+	}
+	if(sizeOption>1){
+		cout << "\tERROR: " << FRAME_SIZE << " has been entered multiple times\n";
+		error = true;
+	}
+	return error;
 }
 
 bool inputErrorCheck(string pages, string frames, string frameSize){
@@ -115,8 +137,8 @@ bool inputErrorCheck(string pages, string frames, string frameSize){
 		error = true;
 
 	}
-	if(atoi(frames.c_str()) <= 0 || frames.find('.')!=string::npos){
-		cout << "\tERROR: Frames must be a positive integer\n";
+	if((atoi(frames.c_str()) <= 0 || atoi(frames.c_str()) > MAX_FRAMES) || frames.find('.')!=string::npos){
+		cout << "\tERROR: Frames must be a positive integer between 1 and " << MAX_FRAMES << "\n";
 		error = true;
 	}
 	if(atoi(frameSize.c_str()) <= 0 || frameSize.find('.')!=string::npos){
@@ -191,13 +213,3 @@ bool idErrorCheck(string fileInput){
 	}
 	return error;
 }
-
-void push(int address, queue<int>& queue){ queue.push(address); }
-
-void pop(queue<int>& queue){ queue.pop(); }
-
-int get(queue<int>& queue){ return queue.front(); }
-
-bool empty(queue<int>& queue){ return queue.empty(); }
-
-int size(queue<int>& queue){ return queue.size(); }

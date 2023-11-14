@@ -19,39 +19,40 @@ FIFO::FIFO(){
 FIFO::~FIFO(){}
 
 void FIFO::fifoPager(queue<int>& addresses, Table& table){
-	int freeFrame, address, victimFrame, page; 
+	int freeFrame, address, victimFrame, victimPage, page; 
 	int iteration = 0;
-	while(!empty(addresses)){
+	while(!addresses.empty()){
 		cout << "iteration: " << iteration++ << endl;
 		table.print();
 
-		address = get(addresses);
-		pop(addresses);
+		address = addresses.front();
+		addresses.pop();
 		page = table.addressPage(address);
-		if(table.member(page) == -1){
+		if(!table.valid(page)){
 			pageFaults++;
 			freeFrame = table.freeFrame();
 			if(freeFrame != -1){
 				cout << "\t\tfreeFrame: " << freeFrame << endl;
-				push(page,pages);
-				table.load(freeFrame,page);
-				table.setValid(freeFrame);
+				frames.push(freeFrame);
+				table.load(page,freeFrame);
+				table.setValid(page);
 			}
 			// page replacement must be conducted
 			else{
-				victimFrame = selectVictim(table);
-				pop(pages);
-				push(page,pages);
-				cout << "\t\tvictimFrame: " << victimFrame << endl;
-				table.setInvalid(victimFrame);
-				table.load(victimFrame,page);
-				table.setValid(victimFrame);
+				victimFrame = selectVictimFrame(table);
+				victimPage = table.findPage(victimFrame);
+				frames.pop();
+				frames.push(victimFrame);
+				cout << "\t\tvictimPage: " << victimPage << endl;
+				table.setInvalid(victimPage);
+				table.load(page,victimFrame);
+				table.setValid(page);
 			}
 		}
 		cout << "pageFaults: " << pageFaults << endl << endl;
 	}
 }
 
-int FIFO::selectVictim(Table& table){
-	return table.member(get(pages));
+int FIFO::selectVictimFrame(Table& table){
+	return frames.front();
 }
