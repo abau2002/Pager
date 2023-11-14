@@ -92,20 +92,21 @@ int main(int argc, char **argv){
 	}
 
 	cout << "Paging for P_" << id << ":\n";
+	int totalPageFaults;
 	Table table(atoi(pages),atoi(frames),atoi(frameSize));
 	if(!strcmp(type,FIRST_IN_FIRST_OUT)){
-		fifo.fifoPager(addresses,table);
+		totalPageFaults = fifo.fifoPager(addresses,table);
 	}
 	else if(!strcmp(type,LEAST_RECENT_USED)){
 		cout << "LRU\n";
 	}
 	else if(!strcmp(type,RANDOM)){
-		random.randomPager(addresses,table);
+		totalPageFaults = random.randomPager(addresses,table);
 	}
 	else if(!strcmp(type,MOST_FREQUENT_USED)){
 		cout << "MFU\n";
 	}
-
+	cout << "\tTotal Page Faults: " << totalPageFaults << endl;
 	return 0;
 }
 

@@ -22,7 +22,7 @@ class FIFO{
 		~FIFO();
 
 		// pages for the given queue of addresses using the given Table instance using the first in first out algorithm
-		void fifoPager(queue<int>& addresses, Table& table);
+		int fifoPager(queue<int>& addresses, Table& table);
 
 	private:
 		int pageFaults;

@@ -25,7 +25,7 @@ class Random{
 		~Random();
 
 		// pages for the given queue of addresses using the given Table instance using the random algorithm
-		void randomPager(queue<int>& addresses,Table& table);
+		int randomPager(queue<int>& addresses,Table& table);
 		
 	private:
 		int pageFaults;

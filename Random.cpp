@@ -18,7 +18,7 @@ Random::Random(){
 
 Random::~Random(){}
 
-void Random::randomPager(queue<int>& addresses,Table& table){
+int Random::randomPager(queue<int>& addresses,Table& table){
 	int freeFrame, address, victimPage, victimFrame, page; 
 	int iteration = 0;
 	while(!addresses.empty()){
@@ -48,6 +48,7 @@ void Random::randomPager(queue<int>& addresses,Table& table){
 		}
 		cout << "pageFaults: " << pageFaults << endl << endl;
 	}
+	return pageFaults;
 }
 
 int Random::selectVictimFrame(Table& table){

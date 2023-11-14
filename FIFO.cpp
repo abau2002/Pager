@@ -17,7 +17,7 @@ FIFO::FIFO(){
 }
 FIFO::~FIFO(){}
 
-void FIFO::fifoPager(queue<int>& addresses, Table& table){
+int FIFO::fifoPager(queue<int>& addresses, Table& table){
 	int freeFrame, address, victimFrame, victimPage, page; 
 	int iteration = 0;
 	while(!addresses.empty()){
@@ -50,6 +50,7 @@ void FIFO::fifoPager(queue<int>& addresses, Table& table){
 		}
 		cout << "pageFaults: " << pageFaults << endl << endl;
 	}
+	return pageFaults;
 }
 
 int FIFO::selectVictimFrame(Table& table){
