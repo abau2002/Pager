@@ -52,3 +52,5 @@ int Table::findPage(int frame){
 	}
 	return -1;
 }
+
+int Table::getFrame(int page){ return table.at(page).frame; }

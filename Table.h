@@ -60,6 +60,9 @@ class Table{
 
 		// finds the valid page in the given frame
 		int findPage(int frame);
+		
+		// finds the frame of the given frame
+		int getFrame(int page);
 };
 
 #endif // TABLE_H

@@ -146,13 +146,13 @@ bool inputErrorCheck(string pages, string frames, string frameSize){
 		cout << "\tERROR: Frame size must be a positive integer\n";
 		error = true;
 	}
-	else{
+	/*else{
 		unsigned int frameBytes = atoi(frameSize.c_str());
 		if((frameBytes & (frameBytes - 1)) != 0){
 			cout << "\tERROR: Frame size must be a power of two\n";
 			error = true;
 		}
-	}
+	}*/
 	return error;		
 }
 

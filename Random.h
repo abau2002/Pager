@@ -31,7 +31,7 @@ class Random{
 		int pageFaults;
 
 		// returns a random frame in the table
-		int selectVictimFrame(Table& table);
+		int selectVictim(Table& table);
 };
 
 #endif // RANDOM_H

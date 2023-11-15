@@ -26,10 +26,10 @@ class FIFO{
 
 	private:
 		int pageFaults;
-		queue<int> frames;
+		queue<int> pages;
 
 		// returns the first frame in the frames queue
-		int selectVictimFrame(Table& table);
+		int selectVictim();
 };
 
 #endif // FIFO_H

@@ -38,11 +38,11 @@ int Random::randomPager(queue<int>& addresses,Table& table){
 			}
 			// page replacement must be conducted
 			else{
-				victimFrame = selectVictimFrame(table);
-				victimPage = table.findPage(victimFrame);
-				cout << "\t\tvictimPage: " << victimPage << endl;
+				victimPage = selectVictim(table);
 				table.setInvalid(victimPage);
-				table.load(page,victimFrame);
+				cout << "\t\tvictimPage: " << victimPage << endl;
+				
+				table.load(page,table.getFrame(victimPage));
 				table.setValid(page);
 			}
 		}
@@ -51,6 +51,6 @@ int Random::randomPager(queue<int>& addresses,Table& table){
 	return pageFaults;
 }
 
-int Random::selectVictimFrame(Table& table){
-	return rand()%table.totalFrames();
+int Random::selectVictim(Table& table){
+	return table.findPage(rand()%table.totalFrames());
 }

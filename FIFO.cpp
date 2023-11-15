@@ -32,19 +32,20 @@ int FIFO::fifoPager(queue<int>& addresses, Table& table){
 			freeFrame = table.freeFrame();
 			if(freeFrame != -1){
 				cout << "\t\tfreeFrame: " << freeFrame << endl;
-				frames.push(freeFrame);
+				pages.push(page);
 				table.load(page,freeFrame);
 				table.setValid(page);
 			}
 			// page replacement must be conducted
-			else{
-				victimFrame = selectVictimFrame(table);
-				victimPage = table.findPage(victimFrame);
-				frames.pop();
-				frames.push(victimFrame);
-				cout << "\t\tvictimPage: " << victimPage << endl;
+			else{	
+				victimPage = selectVictim();
 				table.setInvalid(victimPage);
-				table.load(page,victimFrame);
+				cout << "\t\tvictimPage: " << victimPage << endl;
+				
+				pages.pop();
+				pages.push(page);
+				
+				table.load(page,table.getFrame(victimPage));
 				table.setValid(page);
 			}
 		}
@@ -53,6 +54,6 @@ int FIFO::fifoPager(queue<int>& addresses, Table& table){
 	return pageFaults;
 }
 
-int FIFO::selectVictimFrame(Table& table){
-	return frames.front();
+int FIFO::selectVictim(){
+	return pages.front();
 }
