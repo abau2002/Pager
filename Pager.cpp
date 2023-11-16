@@ -12,6 +12,8 @@
 #include "Table.h"
 #include "Random.h"
 #include "FIFO.h"
+#include "MFU.h"
+#include "LRU.h"
 #include <fstream>
 #include <iostream>
 #include <cstring>
@@ -21,6 +23,8 @@ using namespace std;
 int main(int argc, char **argv){
 	Random random;
 	FIFO fifo;
+	MFU mfu;
+	LRU lru;
 	queue<int> addresses;
 	ifstream inputFile;
 	string fileLine;
@@ -98,13 +102,13 @@ int main(int argc, char **argv){
 		totalPageFaults = fifo.fifoPager(addresses,table);
 	}
 	else if(!strcmp(type,LEAST_RECENT_USED)){
-		cout << "LRU\n";
+		totalPageFaults = lru.LRUpager(addresses,table);
 	}
 	else if(!strcmp(type,RANDOM)){
 		totalPageFaults = random.randomPager(addresses,table);
 	}
 	else if(!strcmp(type,MOST_FREQUENT_USED)){
-		cout << "MFU\n";
+		totalPageFaults = mfu.mfuPager(addresses,table);
 	}
 	cout << "\tTotal Page Faults: " << totalPageFaults << endl;
 	return 0;
