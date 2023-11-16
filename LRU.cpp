@@ -2,7 +2,7 @@
 // A Bautista, B Franco, E Mora
 // OS, Fall 2023, Transy U
 //
-// 
+// Implementation for LRU that contains all functions needed to page a process using the LRU algorithm
 //
 
 #include "Pager.h"
