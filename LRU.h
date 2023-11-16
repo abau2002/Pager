@@ -2,9 +2,9 @@
 // A Bautista, B Franco, E Mora
 // OS, Fall 2023, Transy U
 //
+// Interface for LRU that contains all functions needed to page a process using the LRU algorithm
 //
-// 
-//
+
 #ifndef LRU_H
 #define LRU_H
 
