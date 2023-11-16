@@ -2,8 +2,7 @@
 // A Bautista, B Franco, E Mora
 // OS, Fall 2023, Transy U
 //
-//
-// 
+//	Interface for Pager that contains all the definitions and error checking needed to ensure input is valid 
 //
 
 #ifndef PAGER_H
@@ -31,13 +30,13 @@ using namespace std;
 #define DEFAULT_FILE "pager.in"
 #define MAX_FRAMES 65536
 
-// checks if input is valid and returns false if no errors found
+// checks if input numbers are valid and returns false if no errors found
 bool inputErrorCheck(string pages, string frames, string frameSize);
 
 // checks if command line set up is valid and returns false if no issues found
 int commandErrorCheck(int argc, char**argv);
 
-// checks if the values are valid, returns false if no errors found
+// checks if the memory addresses are possible within given framesize and pages, returns false if no errors found
 bool loadErrorCheck(int address,int pageSize, int pages);
 
 // checks if the process id is valid and in the proper format, returns false if no issues found
