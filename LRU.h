@@ -18,13 +18,15 @@ public:
   LRU();
   ~LRU();
   
-  void LRUpager(queue<int>& addresses, Table& table);
+  int LRUpager(queue<int>& addresses, Table& table);
 
 private:
   int pageFaults;
-  vector<int> frames;
+  //keeps track of the time that each page is accessed in memory
   vector<int> timestamps;
-  // returns the frame that was last used in the frames stack
+  
+  //takes in the page table as a parameter
+  // returns the frame that was least recently used in the frames stack
   int selectVictim(Table& table);
 };
 
