@@ -213,7 +213,7 @@ bool idErrorCheck(string fileInput){
     cout << "\tERROR: Process id is not of form P_#\n";
     error = true;
   }
-  else if(atoi(fileInput.substr(2,fileInput.length()).c_str()) < 0){
+  else if(atoi(fileInput.substr(2,fileInput.length()).c_str()) < 0 || fileInput.find('.')!=string::npos){
     cout << "\tERROR: Process id must be a non-negative number\n";
     error = true;
   }
