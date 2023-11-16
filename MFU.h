@@ -25,6 +25,7 @@ public:
 private:
   int pageFaults; // tracks number of page faults
   vector<int> pageFrequency; // vector to track the frequency of each page
+  vector<int> loadOrder;
   
   int selectVictim(Table& table); // selects the victim frame from the page table
 };
