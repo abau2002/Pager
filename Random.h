@@ -17,21 +17,21 @@
 using namespace std;
 
 class Random{
-	public:
-		// constructor
-		Random();
-
-		// destructor
-		~Random();
-
-		// pages for the given queue of addresses using the given Table instance using the random algorithm
-		int randomPager(queue<int>& addresses,Table& table);
-		
-	private:
-		int pageFaults;
-
-		// returns a random frame in the table
-		int selectVictim(Table& table);
+public:
+  // constructor
+  Random();
+  
+  // destructor
+  ~Random();
+  
+  // pages for the given queue of addresses using the given Table instance using the random algorithm
+  int randomPager(queue<int>& addresses,Table& table);
+  
+private:
+  int pageFaults;
+  
+  // returns a random frame in the table
+  int selectVictim(Table& table);
 };
 
 #endif // RANDOM_H

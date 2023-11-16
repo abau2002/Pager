@@ -14,22 +14,22 @@
 using namespace std;
 
 class FIFO{
-	public:
-		// constructor
-		FIFO();
-
-		// destructor
-		~FIFO();
-
-		// pages for the given queue of addresses using the given Table instance using the first in first out algorithm
-		int fifoPager(queue<int>& addresses, Table& table);
-
-	private:
-		int pageFaults;
-		queue<int> pages;
-
-		// returns the first frame in the frames queue
-		int selectVictim();
+public:
+  // constructor
+  FIFO();
+  
+  // destructor
+  ~FIFO();
+  
+  // pages for the given queue of addresses using the given Table instance using the first in first out algorithm
+  int fifoPager(queue<int>& addresses, Table& table);
+  
+private:
+  int pageFaults;
+  queue<int> pages;
+  
+  // returns the first frame in the frames queue
+  int selectVictim();
 };
 
 #endif // FIFO_H

@@ -11,12 +11,12 @@
 using namespace std;
 
 Table::Table(int pages, int frames, int frameSize){
-	freeFrames = 0;
-	frameCount = frames;
-	pageSize = frameSize;
-	emptyEntry.frame = -1;
-	emptyEntry.valid = false;
-	table.assign(pages,emptyEntry);
+  freeFrames = 0;
+  frameCount = frames;
+  pageSize = frameSize;
+  emptyEntry.frame = -1;
+  emptyEntry.valid = false;
+  table.assign(pages,emptyEntry);
 }
 
 Table::Table(){}
@@ -24,14 +24,14 @@ Table::Table(){}
 Table::~Table(){}
 
 void Table::print(){
-	for(int i=0;i<size();i++) cout << "\tPage " << i << ": " << table.at(i).frame << " " << table.at(i).valid << endl;
+  for(int i=0;i<size();i++) cout << "\tPage " << i << ": " << table.at(i).frame << " " << table.at(i).valid << endl;
 }
 
 int Table::addressPage(int address){ return (address/pageSize); }
 
 int Table::freeFrame(){
-	if(freeFrames<frameCount) return freeFrames++;
-	return -1;
+  if(freeFrames<frameCount) return freeFrames++;
+  return -1;
 }
 
 int Table::size(){ return table.size(); }
@@ -47,10 +47,10 @@ bool Table::valid(int page){ return table.at(page).valid; }
 int Table::totalFrames(){ return frameCount; }
 
 int Table::findPage(int frame){
-	for(int i=0;i<size();i++){
-		if(table.at(i).frame==frame && table.at(i).valid) return i;
-	}
-	return -1;
+  for(int i=0;i<size();i++){
+    if(table.at(i).frame==frame && table.at(i).valid) return i;
+  }
+  return -1;
 }
 
 int Table::getFrame(int page){ return table.at(page).frame; }
