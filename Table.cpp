@@ -2,8 +2,8 @@
 // A Bautista, B Franco, E Mora
 // OS, Fall 2023, Transy U
 //
-//
-// 
+//  Implementation for Table that creates the table and contains all functions needed to access 
+//  and operate on the table
 //
 
 #include "Table.h"
