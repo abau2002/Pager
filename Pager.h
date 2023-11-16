@@ -2,7 +2,7 @@
 // A Bautista, B Franco, E Mora
 // OS, Fall 2023, Transy U
 //
-//	Interface for Pager that contains all the definitions and error checking needed to ensure input is valid 
+// Interface for Pager that contains all the definitions and error checking needed to ensure input is valid 
 //
 
 #ifndef PAGER_H
