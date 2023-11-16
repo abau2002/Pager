@@ -2,7 +2,7 @@
 // A Bautista, B Franco, E Mora
 // OS, Fall 2023, Transy U
 //
-// 
+// Interface for MFU that contains all functions needed to page a process using the MFU algorithm
 //
 
 #ifndef MFU_H
