@@ -73,17 +73,15 @@ int MFU::selectVictim(Table& table) {
     }
 
     // iterate through frames to find the relative frame for highest frequency
-    if (victimPage != -1) {
-        for (int i = 0; i < table.size(); i++) {
-            if (table.valid(i)) {  
-                int frame = table.getFrame(i);  
-                if (frame == victimPage) {
-                    victimFrame = frame;
-                    break;
-                }
-            }
-        }
-    }
+	if (victimPage != -1) {
+		for (int i = 0; i < table.size(); i++) {
+			if (table.valid(i) && i == victimPage) {  // Check if the page is valid and matches victimPage
+				victimFrame = table.getFrame(i);  // Get the frame number for the victimPage
+				break;
+			}
+		}
+	}
+
 
     return victimFrame;
 }
