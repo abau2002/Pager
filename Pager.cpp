@@ -2,8 +2,8 @@
 // A Bautista, B Franco, E Mora
 // OS, Fall 2023, Transy U
 //
-// Driver for pager that can take in a number of pages and frames, a memory address file for a process,
-//  a framesize in a power of two number of bytes, and a paging alogrithm type
+//	Driver for pager that can take in a number of pages and frames, a memory address file for a process,
+// a framesize in a power of two number of bytes, and a paging alogrithm type
 //
 //	http://www.graphics.stanford.edu/~seander/bithacks.html#DetermineIfPowerOf2
 //	https://cplusplus.com/reference/vector/vector/
