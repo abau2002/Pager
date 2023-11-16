@@ -2,7 +2,7 @@
 // A Bautista, B Franco, E Mora
 // OS, Fall 2023, Transy U
 //
-// 
+// Implementation for Random that contains all functions needed to page a process using a random algorithm
 //
 
 #include "Random.h"
