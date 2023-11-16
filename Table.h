@@ -2,7 +2,7 @@
 // A Bautista, B Franco, E Mora
 // OS, Fall 2023, Transy U
 //
-// 
+// Interface for Table that contains all the variables needed and functions to operate on the table 
 //
 
 #ifndef TABLE_H
