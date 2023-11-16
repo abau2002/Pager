@@ -25,7 +25,7 @@ public:
 private:
   int pageFaults; // tracks number of page faults
   vector<int> pageFrequency; // vector to track the frequency of each page
-  vector<int> loadOrder;
+  vector<int> loadOrder; //vector used for FIFO tiebreaker if two or more pages have the same frequency
   
   int selectVictim(Table& table); // selects the victim frame from the page table
 };
