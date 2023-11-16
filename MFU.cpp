@@ -49,6 +49,12 @@ int MFU::mfuPager(queue<int>& addresses, Table& table) {
 			
 			else {
                 victimFrame = selectVictim(table);
+
+                if (victimFrame == -1) {
+                    cout << "No available frames to evict. Aborting page replacement." << endl;
+                    break; // Exit the loop if no victim frame is found
+                }
+
                 victimPage = table.findPage(victimFrame);
                 cout << "\tVictim page: " << victimPage << " with frequency: " << pageFrequency[victimPage] << ", Frame: " << victimFrame << endl;
                 table.setInvalid(victimPage);
@@ -62,9 +68,10 @@ int MFU::mfuPager(queue<int>& addresses, Table& table) {
 
         cout << "Current page faults: " << pageFaults << endl;
         cout << "Current load order: ";
-        for (int p : loadOrder) {
-            cout << p << " ";
+        for (int i = 0; i < loadOrder.size(); ++i) {
+            cout << loadOrder[i] << " ";
         }
+
         cout << endl;
         cout << "Current page frequencies: ";
         for (int i = 0; i < pageFrequency.size(); ++i) {
@@ -78,24 +85,48 @@ int MFU::mfuPager(queue<int>& addresses, Table& table) {
 
 int MFU::selectVictim(Table& table) {
     int maxFrequency = 0;
-    int victimPageIndex = -1; 
 
-    // iterate through to find max frequency
-    for (int i = 0; i < pageFrequency.size(); ++i) {
-        if (pageFrequency[i] > maxFrequency) {
-            maxFrequency = pageFrequency[i];
+    // Iterate through to find max frequency
+    for (int freq : pageFrequency) {
+        if (freq > maxFrequency) {
+            maxFrequency = freq;
         }
     }
 
     cout << "Maximum frequency found: " << maxFrequency << endl;
 
-    // iterate through loadOrder to find the first page with the max frequency
+    // Check if loadOrder is empty before proceeding
+    if (loadOrder.empty()) {
+        cout << "Load order is empty, no victim page found." << endl;
+        return -1; // No victim page to evict
+    }
+
+    int victimPageIndex = -1;
     for (int i = 0; i < loadOrder.size(); ++i) {
         int page = loadOrder[i];
-        if (pageFrequency[page] == maxFrequency) {
+        if (page < pageFrequency.size() && pageFrequency[page] == maxFrequency) {
             victimPageIndex = i;
             break;
         }
+    }
+
+
+    if (victimPageIndex != -1) {
+        int victimPage = loadOrder[victimPageIndex];
+        int victimFrame = table.getFrame(victimPage);
+        
+        cout << "Victim page: " << victimPage << ", Victim frame: " << victimFrame << endl;
+
+        // Shift elements in loadOrder to remove the victim page
+        for (int i = victimPageIndex; i < loadOrder.size() - 1; ++i) {
+            loadOrder[i] = loadOrder[i + 1];
+        }
+        loadOrder.pop_back();
+
+        return victimFrame;
+    } else {
+        cout << "No victim page found with max frequency." << endl;
+        return -1; // No victim page to evict
     }
 
     if (victimPageIndex != -1) {
