@@ -2,8 +2,7 @@
 // A Bautista, B Franco, E Mora
 // OS, Fall 2023, Transy U
 //
-//
-// 
+// Interface for Random that contains all functions needed to page a process using the Random algorithm
 //
 
 #ifndef RANDOM_H
