@@ -1,4 +1,9 @@
 # FILE: makefile
+# A Bautista, B Franco, E Mora
+# OS, Fall 2023, Transy U
+#
+# makefile for Group 3 Pager
+#
 
 pager: Pager.o Table.o Random.o FIFO.o MFU.o LRU.o
 	g++ Pager.o Table.o Random.o FIFO.o MFU.o LRU.o -o pager
