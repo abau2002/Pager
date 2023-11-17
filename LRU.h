@@ -17,7 +17,9 @@ class LRU {
 public: 
   LRU();
   ~LRU();
-  
+
+  //takes in a queue of addresses and a page table
+  //it then conducts page replacement using the least recently used algorithm
   int LRUpager(queue<int>& addresses, Table& table);
 
 private:
@@ -25,8 +27,8 @@ private:
   //keeps track of the time that each page is accessed in memory
   vector<int> timestamps;
   
-  //takes in the page table as a parameter
-  // returns the frame that was least recently used in the frames stack
+  // takes in the page table
+  //it then finds the frame that was accessed with the lowest time value and returns it
   int selectVictim(Table& table);
 };
 

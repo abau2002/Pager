@@ -17,8 +17,8 @@ using namespace std;
 
 class MFU {
 public:
-  MFU(); //constructor
-  ~MFU(); //destructor
+  MFU();
+  ~MFU();
   
   int mfuPager(queue<int>& addresses, Table& table); // pager for MFU that takes in a queue of addresses and a table
 

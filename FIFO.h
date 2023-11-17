@@ -15,10 +15,9 @@ using namespace std;
 
 class FIFO{
 public:
-  // constructor
-  FIFO();
   
-  // destructor
+  FIFO();
+
   ~FIFO();
   
   // pages for the given queue of addresses using the given Table instance using the first in first out algorithm

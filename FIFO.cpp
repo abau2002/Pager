@@ -21,22 +21,31 @@ int FIFO::fifoPager(queue<int>& addresses, Table& table){
   int freeFrame, address, victimFrame, victimPage, page; 
   int iteration = 0;
   while(!addresses.empty()){
+    // prints all contents inside the table before any manipulation is done 
     cout << "iteration: " << iteration++ << endl;
     table.print();
     
+    //push all addresses to its specific page
     address = addresses.front();
     addresses.pop();
     page = table.addressPage(address);
+
+    //if valid bit is not set increase page faults and find a free frame
     if(!table.valid(page)){
       pageFaults++;
       freeFrame = table.freeFrame();
+      
+      //if frame is empty put page there 
       if(freeFrame != -1){
 	cout << "\t\tfreeFrame: " << freeFrame << endl;
 	pages.push(page);
 	table.load(page,freeFrame);
 	table.setValid(page);
       }
-      // page replacement must be conducted
+      
+      // page replacement must be conducted if no frames are declared
+      // we find the victim by getting the first page that was loaded in and removing it
+      // we then can load the page we wanted to load
       else{	
 	victimPage = selectVictim();
 	table.setInvalid(victimPage);

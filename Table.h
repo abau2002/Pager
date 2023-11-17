@@ -25,10 +25,10 @@ public:
   // constructor that fills the table "empty" entries 
   Table(int pages, int frames, int frameSize);
   
-  // constructor
+  
   Table();
   
-  // destructor
+
   ~Table();
   
   // prints out the table

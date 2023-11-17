@@ -22,21 +22,29 @@ int Random::randomPager(queue<int>& addresses,Table& table){
 	int freeFrame, address, victimPage, victimFrame, page; 
 	int iteration = 0;
 	while(!addresses.empty()){
+	  //print out page table before manipulation 
 	  cout << "iteration: " << iteration++ << endl;
 	  table.print();
-	  
+
+	  //push all addresses to its specific page
 	  address = addresses.front();
 	  addresses.pop();
 	  page = table.addressPage(address);
+	  
+	  //if valid bit is not set increase page faults and find a free frame
 	  if(!table.valid(page)){
 	    pageFaults++;
 	    freeFrame = table.freeFrame();
+
+	    //if we have a free frame put page there
 	    if(freeFrame != -1){
 	      cout << "\t\tfreeFrame: " << freeFrame << endl;
 	      table.load(page,freeFrame);
 	      table.setValid(page);
 	    }
+	    
 	    // page replacement must be conducted
+	    //victim is selected and removed randomly
 	    else{
 	      victimPage = selectVictim(table);
 	      table.setInvalid(victimPage);

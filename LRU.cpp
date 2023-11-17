@@ -28,7 +28,8 @@ int LRU::LRUpager(queue<int>& addresses, Table& table) {
     //print the table before doing anything
     cout << "iteration: " << iteration++ << endl;
     table.print();
-    
+
+    //push all addresses to its specific page
     address = addresses.front();
     addresses.pop();
     page = table.addressPage(address);
@@ -38,20 +39,26 @@ int LRU::LRUpager(queue<int>& addresses, Table& table) {
       timestamps.resize(page + 1, 0);
     }
     
+    //if valid bit is not set increase page faults and find a free frame
     if (!table.valid(page)) {
       pageFaults++;
       int freeFrame = table.freeFrame();
       
+      //if frame is empty put page there  
       if (freeFrame != -1) {
 	cout << "\t\tfreeFrame: " << freeFrame << endl;
 	table.load(page, freeFrame);
 	table.setValid(page);
       }
-      //conduct page replacement 
+      
+      //if no free frames then conduct page replacement
+      // the victim is the frame with the page with the lowest value in the time array
+      // after removing the victim we can load the desired page
+
       else {
 	int victimFrame = selectVictim(table);
 	int victimPage = table.findPage(victimFrame);
-	std::cout << "\t\tvictimPage: " << victimPage << " with timestamp: " << timestamps[victimPage] << std::endl;
+	cout << "\t\tvictimPage: " << victimPage << " with timestamp: " << timestamps[victimPage] << endl;
 	table.setInvalid(victimPage);
 	table.load(page, victimFrame);
 	table.setValid(page);
@@ -67,13 +74,11 @@ int LRU::LRUpager(queue<int>& addresses, Table& table) {
 	break;
       }
     }
-    std::cout << " pageFaults: " << pageFaults << std::endl << std::endl;
+    cout << " pageFaults: " << pageFaults << endl << endl;
   }
   return pageFaults;
 }
 
-// takes in the page table
-//it then finds the frame that was accessed with the lowest time value and returns it
 int LRU::selectVictim(Table& table) {
   int minTimestamp = INT_MAX;
   int victimPage = -1;

@@ -4,6 +4,8 @@
 //
 // Driver for pager that can take in a number of pages and frames, a memory address file for a process,
 // a framesize in a power of two number of bytes, and a paging alogrithm type
+// this then utilizes the type given and the other arguments to conduct page replacement
+// using the specified algorithm and the memory addresses
 //
 //	http://www.graphics.stanford.edu/~seander/bithacks.html#DetermineIfPowerOf2
 //	https://cplusplus.com/reference/vector/vector/
@@ -48,6 +50,8 @@ int main(int argc, char **argv){
   }
   
   int typeOption=0,pageOption=0,frameOption=0,sizeOption=0;
+
+  // stores the value of each specified argument so that it can be used in page replacement
   for(int i=1;i<argc;i++){
     if(!strcmp(argv[i],TYPE)){
       typeOption++;
@@ -66,9 +70,11 @@ int main(int argc, char **argv){
       strcpy(frameSize,argv[i+1]);            
     }
   }
-  
+
+  // ensures that no argument was specified twice
   if(repeatErrorCheck(typeOption,pageOption,frameOption,sizeOption)) exit(1);
-  
+
+  //makes sure that input numbers are valid if not we gracefully exit
   if(!inputErrorCheck(pages,frames,frameSize)){
     inputFile.open(fileName);
     if(inputFile){
@@ -99,6 +105,8 @@ int main(int argc, char **argv){
   cout << "Paging for P_" << id << ":\n";
   int totalPageFaults;
   Table table(atoi(pages),atoi(frames),atoi(frameSize));
+
+  // call the appropriate method depending on the value of type
   if(!strcmp(type,FIRST_IN_FIRST_OUT)){
     totalPageFaults = fifo.fifoPager(addresses,table);
   }
